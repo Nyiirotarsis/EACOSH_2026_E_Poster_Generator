@@ -162,14 +162,15 @@
       <label>Safety Week PPE</label>
       <div style="display:grid;gap:7px;font-size:11px;color:#c7d2dc">
         <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;color:#c7d2dc;font-size:11px;margin:0">
-          <input id="helmet" type="checkbox" checked> Safety helmet
+          <input id="helmet" type="checkbox"> Safety helmet
         </label>
         <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;color:#c7d2dc;font-size:11px;margin:0">
-          <input id="vest" type="checkbox" checked> Reflective vest
+          <input id="vest" type="checkbox"> Reflective vest
         </label>
         <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;color:#c7d2dc;font-size:11px;margin:0">
-          <input id="goggles" type="checkbox" checked> Safety goggles
+          <input id="goggles" type="checkbox"> Safety goggles
         </label>
+        <div style="font-size:10px;color:#8295a7;margin-top:3px">PPE appears on the poster only when selected.</div>
       </div>
     </div>
 
@@ -406,12 +407,12 @@ async function drawPoster(){
   centerText('27th – 28th AUGUST 2026',785,315,29,'DM Sans',yellow,'700');
   centerText('Imperial Royale Hotel • Kampala, Uganda',785,355,21,'DM Sans',white,'500');
 
-  // Attendance badge
-  roundedRect(325,405,430,58,10,navy,'rgba(255,255,255,.28)',2);
-  centerText('I AM ATTENDING',540,434,25,'DM Sans',white,'700');
+  // Attendance badge: moved into a cleaner gap below the date card
+  roundedRect(390,415,300,50,25,orange,null);
+  centerText('I AM ATTENDING',540,440,21,'DM Sans',white,'700');
 
   // Photo circle
-  const cx=540, cy=620, r=166;
+  const cx=540, cy=635, r=166;
   ctx.save();
   ctx.shadowColor='rgba(246,201,40,.38)';ctx.shadowBlur=35;
   ctx.beginPath();ctx.arc(cx,cy,r+7,0,Math.PI*2);ctx.strokeStyle=yellow;ctx.lineWidth=7;ctx.stroke();
@@ -432,6 +433,11 @@ async function drawPoster(){
 
   // Photo ring
   ctx.beginPath();ctx.arc(cx,cy,r+12,0,Math.PI*2);ctx.strokeStyle=yellow;ctx.lineWidth=3;ctx.stroke();
+
+  // Optional PPE overlays. Nothing is shown unless the user toggles it on.
+  if(photo && (el('helmet').checked || el('vest').checked || el('goggles').checked)){
+    drawSafetyPPE(cx,cy,r);
+  }
 
   // Personal details panel: keep the name area light so black text is never swallowed by navy
   roundedRect(55,785,970,190,18,'#F2EEE3','rgba(6,32,58,.18)',2);
